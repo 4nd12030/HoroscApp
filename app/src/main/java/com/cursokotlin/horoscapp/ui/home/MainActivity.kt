@@ -8,7 +8,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.cursokotlin.horoscapp.R
 import com.cursokotlin.horoscapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+//Clase que recibe clases inyectadas
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
