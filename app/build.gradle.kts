@@ -1,9 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    //Dagger Hilt
-    id ("kotlin-kapt")
-    id ("com.google.dagger.hilt.android")
+
+    //Aplicando el complemento de Gradle
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -50,8 +51,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     //Dagger Hilt
-    implementation ("com.google.dagger:hilt-android:2.35.1")
-    kapt ("com.google.dagger:hilt-compiler:2.35.1")
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
 
 
     implementation("androidx.core:core-ktx:1.13.1")
