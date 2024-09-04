@@ -1,6 +1,7 @@
 package com.cursokotlin.horoscapp.ui.horoscope.adapter
 
 import android.view.View
+import android.view.animation.LinearInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.cursokotlin.horoscapp.databinding.ItemHoroscopeBinding
 import com.cursokotlin.horoscapp.domain.model.HoroscopeInfo
@@ -20,8 +21,20 @@ class HoroscopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         tvTittle.text = context.getString(horoscopeItem.name)
         ivHoroscope.setImageResource(horoscopeItem.img)
 
-        parent.setOnClickListener { onItemSelected(horoscopeItem) }
+        parent.setOnClickListener {
+            startAnimation(ivHoroscope, newLambda = {onItemSelected(horoscopeItem)} )
+        }
 
+    }
+
+    private fun startAnimation(view : View, newLambda:() -> Unit ) {
+        view.animate().apply {
+            duration = 500 //medio segundo
+            interpolator = LinearInterpolator()
+            rotationBy(360f)
+            withEndAction{ newLambda() }
+            start()
+        }
     }
 
 }
