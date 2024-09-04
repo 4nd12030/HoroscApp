@@ -5,6 +5,9 @@ plugins {
     //Aplicando el complemento de Gradle
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+
+    //Save args
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
