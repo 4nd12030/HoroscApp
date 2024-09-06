@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class HoroscopeDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHoroscopeDetailBinding
-    private val horoscopeDetailViewModel : HoroscopeDetailViewModel by viewModels()
+    private val horoscopeDetailViewModel: HoroscopeDetailViewModel by viewModels()
 
     private lateinit var ivDetail: ImageView
     private lateinit var tvTitle: TextView
@@ -30,23 +30,23 @@ class HoroscopeDetailActivity : AppCompatActivity() {
 
 
     //variable que recupera el argumento pasado desde HoroscopeFragment a traves del findNavControler
-    private val args : HoroscopeDetailActivityArgs by navArgs()
+    private val args: HoroscopeDetailActivityArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHoroscopeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        createVariables()
+        initUI()
+
+    }
+
+    fun createVariables() {
         ivDetail = binding.ivDetail
         tvTitle = binding.tvTitle
         tvBody = binding.tvBody
         progressBar = binding.progressBar
-
-        initUI()
-
-        //args.type.
-
-
     }
 
     private fun initUI() {
@@ -55,26 +55,26 @@ class HoroscopeDetailActivity : AppCompatActivity() {
 
     private fun initUIState() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 horoscopeDetailViewModel.state.collect {
-                    when(it) {
-                        HoroscopeDetailState.Loading ->  loadingState()
+                    when (it) {
+                        HoroscopeDetailState.Loading -> loadingState()
                         is HoroscopeDetailState.Error -> errorState()
                         is HoroscopeDetailState.Success -> successState()
                     }
                 }
             }
         }
-       // ivDetail.setImageResource(args.type.)
+        // ivDetail.setImageResource(args.type.)
         tvTitle.text = args.type.name
     }
 
     private fun successState() {
-        TODO("Not yet implemented")
+
     }
 
     private fun errorState() {
-        TODO("Not yet implemented")
+
     }
 
     private fun loadingState() {
