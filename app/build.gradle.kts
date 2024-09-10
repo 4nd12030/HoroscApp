@@ -25,12 +25,24 @@ android {
     }
 
     buildTypes {
-        release {
+       getByName("release") {
             isMinifyEnabled = false
+           isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+           resValue("string", "andyname", "HoroscApp2")
+
+
+           buildConfigField("String", "BASE_URL", "\"https://newastro.vercel.app/\"")
+        }
+        getByName("debug") {
+            isDebuggable = true
+
+            resValue("string", "andyname", "[DEBUG] HoroscApp")
+
+            buildConfigField("String", "BASE_URL", "\"https://newastro.vercel.app/\"")
         }
     }
     compileOptions {
@@ -43,6 +55,7 @@ android {
 
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 
 }
@@ -60,6 +73,9 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //Inerceptor para ver la  respueta de la api
+    implementation("com.squareup.okhttp3:logging-interceptor:4.3.1")
+
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
