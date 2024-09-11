@@ -107,7 +107,7 @@ class HoroscopeFragment : Fragment() {
     ): View {
         _binding = FragmentHoroscopeBinding.inflate(layoutInflater, container, false)
         Log.i("Fragment", "$binding")
-        // Inflate the layout for this fragment
+
         return binding.root
     }
 
