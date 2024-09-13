@@ -1,6 +1,7 @@
 package com.cursokotlin.horoscapp.ui.luck
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,11 +20,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cursokotlin.horoscapp.R
 import com.cursokotlin.horoscapp.databinding.FragmentLuckBinding
+import com.cursokotlin.horoscapp.ui.core.listeners.OnSwipeTouchListener
 import com.cursokotlin.horoscapp.ui.providers.RandomCardProvider
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
 import javax.inject.Inject
-import javax.inject.Provider
 
 //Clase que recibe clases inyectadas
 @AndroidEntryPoint
@@ -90,11 +91,20 @@ class LuckFragment : Fragment() {
     }
 
     private fun initListner() {
-        ivRoulette.setOnClickListener { spinRoulett() }
+        //ivRoulette.setOnClickListener { spinRoulett() }
+        ivRoulette.setOnTouchListener( object : OnSwipeTouchListener(requireContext()) {
+            override fun onSwipeRight() {
+                spinRoulette()
+            }
+
+            override fun onSwipeLeft() {
+                spinRoulette()
+            }
+        })
     }
 
     //Animaciones
-    private fun spinRoulett() {
+    private fun spinRoulette() {
         val random = Random()
         val degrees = random.nextInt(1440) + 360
 
