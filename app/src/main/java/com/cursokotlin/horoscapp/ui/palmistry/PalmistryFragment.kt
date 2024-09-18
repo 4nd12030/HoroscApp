@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import com.cursokotlin.horoscapp.databinding.FragmentPalmistryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.security.Permission
 
 //Clase que recibe clases inyectadas
 @AndroidEntryPoint
@@ -28,7 +31,7 @@ class PalmistryFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            //startCamera
+            startCamera()
         } else {
             Toast.makeText(
                 requireContext(),
@@ -39,7 +42,31 @@ class PalmistryFragment : Fragment() {
 
     }
 
-    private fun checkCameraPErmisssion(): Boolean {
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                }
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try{
+                cameraProvider.unbindAll()
+
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview)
+            } catch (e:Exception){
+                Log.e("andy", "Algo pasa ${e.message}")
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun checkCameraPermisssion(): Boolean {
 
         return PermissionChecker.checkSelfPermission(
             requireContext(),
@@ -50,9 +77,9 @@ class PalmistryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (checkCameraPErmisssion()) {
+        if (checkCameraPermisssion()) {
             //Tiene permsisos aceptados
-
+            startCamera()
         } else {
             requestPermissionLauncher.launch(CAMERA_PERMISSION)
         }
